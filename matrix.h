@@ -2,6 +2,7 @@
 #define __MATRIX_H__
 
 #include <iostream>
+#include <vector>
 using namespace std;
 
 class Matrix {
@@ -17,8 +18,10 @@ class Matrix {
         Matrix operator+=(const Matrix m);
         Matrix operator*=(const Matrix m);
 
+        friend ostream& operator<<(ostream& os, const Matrix& s);
+
     private:
-        double** data;
+        vector<vector<double>> data;
         int rows, cols;
 
 };
