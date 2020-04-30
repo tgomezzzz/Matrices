@@ -10,8 +10,6 @@ class Matrix {
     public:
         Matrix();
         ~Matrix();
-        Matrix(const Matrix& m);
-        Matrix& operator=(const Matrix m);
 
         int sameSize(const Matrix m);
 
@@ -21,6 +19,7 @@ class Matrix {
         friend ostream& operator<<(ostream& os, const Matrix& s);
 
     private:
+        void buildMatrix();
         vector<vector<double>> data;
         int rows, cols;
 

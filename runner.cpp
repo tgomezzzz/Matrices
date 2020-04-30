@@ -1,9 +1,13 @@
 #include "matrix.h"
 
+using namespace std;
 
 int main() {
-    std::cout << "hi" << endl;
     Matrix m;
-    cout << m;
+    Matrix n;
+    Matrix b(m);
+    cout << b;
+    b = n;
+    cout << b;
     return 0;
 }
