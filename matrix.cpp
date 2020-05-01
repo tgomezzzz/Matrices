@@ -8,20 +8,31 @@ Matrix::Matrix() {
     buildMatrix();
 }
 
-Matrix::~Matrix() {
-    cout << "destructor said fuck that bih" << endl;
-}
-
-int Matrix::sameSize(const Matrix m) {
-
+Matrix::Matrix(vector<vector<double>> entries) {
+    data = entries;
+    rows = data.size();
+    if (data.size()) {
+        cols = data[0].size();
+    } else {
+        cols = 0;
+    }
 }
 
 Matrix Matrix::operator+=(const Matrix m) {
-
+    return *this + m;
 }
 
-Matrix Matrix::operator*=(const Matrix m) {
+Matrix Matrix::operator*=(const double constant) {
+    for (auto rowIt = data.begin(); rowIt != data.end(); rowIt++) {
+        for (auto colIt = rowIt->begin(); colIt != rowIt->end(); colIt++) {
+            *colIt *= constant;
+        }
+    }
+    return *this;
+}
 
+vector<double>& Matrix::operator[](int i) {
+    return data[i];
 }
 
 ostream& operator<<(ostream& os, const Matrix& m) {
@@ -38,11 +49,40 @@ ostream& operator<<(ostream& os, const Matrix& m) {
     return os;
 }
 
-Matrix operator+(const Matrix l, const Matrix r) {
-
+Matrix operator+(Matrix l, Matrix r) {
+    if (!l.sameSize(r)) {
+        cout << "ERROR: can only add matrices with the same dimensions" << endl;
+        return l;
+    }
+    vector<vector<double>> data;
+    for (int i = 0; i < l.numRows(); i++) {
+        vector<double> row;
+        for (int j = 0; j < l.numCols(); j++) {
+            row.push_back(l[i][j] + r[i][j]);
+        }
+        data.push_back(row);
+    }
+    return Matrix(data);
 }
-Matrix operator*(const Matrix l, const Matrix r) {
 
+Matrix operator*(Matrix l, Matrix r) {
+    if (!l.oppositeSize(r)) {
+        cout << "ERROR: can only multiply matrices with opposite dimensions" << endl;
+        return l;
+    }
+    vector<vector<double>> data;
+    for (int i = 0; i < l.numRows(); i++) {
+        vector<double> row;
+        for (int j = 0; j < r.numCols(); j++) {
+            int dotProduct = 0;
+            for (int comp = 0; comp < l.numCols(); comp++) {
+                dotProduct += (l[i][comp] * r[comp][j]);
+            }
+            row.push_back(dotProduct);
+        }
+        data.push_back(row);
+    }
+    return Matrix(data);
 }
 
 void Matrix::buildMatrix() {

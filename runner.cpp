@@ -5,9 +5,11 @@ using namespace std;
 int main() {
     Matrix m;
     Matrix n;
-    Matrix b(m);
-    cout << b;
-    b = n;
-    cout << b;
+    Matrix c = m * n;
+    cout << m << endl;
+    cout << n << endl;
+    cout << c << endl;
+    c *= 2.5;
+    cout << c;
     return 0;
 }
